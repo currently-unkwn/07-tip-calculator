@@ -9,6 +9,9 @@ html {
     avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial,
     sans-serif;
 
+  --font-primary: "Roboto Mono", monospace;
+  --font-secondary: "Inter", sans-seif;
+
   --font-thin: 100;
   --font-extra-light: 200;
   --font-light: 300;
@@ -22,10 +25,30 @@ html {
   --color-white: 0deg 0% 100%;
   --color-black: 0deg 0% 4%;
 
+  --color-primary: 10 80% 65%;
+  --color-primary-dark: 10 80% 60%;
+  --color-secondary: 173 44% 57%;
+
+  --color-gray-light: 0 0% 93%;
+  --color-gray-lighter: 0 0% 96%;
+  --color-gray-lighter-2: 60 14% 96%;
+  --color-gray: 0 0% 87%;
+  --color-gray-dark: 0 0% 70%;
+
+  --color-icon: 54deg 12% 66%;
+  --color-box-shadow: 56deg 12% 53%;
+
+  --border-radius-lg: 20px;
+  --border-radius-md: 16px;
+
+  --icon-lg: 40px;
+
   --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-in: cubic-bezier(0.75, 0, 1, 1);
   --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
   --ease: cubic-bezier(0.44, 0.21, 0, 1);
+
+  --separator-width: 2px;
 
   /* Global default font */
   font-family: var(--font-family-sans-serif);
@@ -113,7 +136,7 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0 1000px hsl(var(--color-gray-lighter)) inset !important;
 }
 
 /*
@@ -140,12 +163,23 @@ h6 {
  * BASE
  */
 
+body {
+  color: hsl(var(--color-black));
+  background-color: hsl(var(--color-gray-lighter-2));
+}
+
 /*
  * OBJECTS
  */
 
 .Container {
-  max-width: calc(1200 / 16 * 1rem);
+  /* max-width: calc(1200 / 16 * 1rem); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100%;
+
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -153,6 +187,203 @@ h6 {
 /*
  * COMPONENTS
  */
+
+/* Typography */
+
+.Title {
+  display: block;
+  font-size: calc(14 / 16 * 1rem);
+  font-weight: var(--font-bold);
+}
+
+/* Base */
+
+.TipCalculator {
+  max-width: calc(768 / 16 * 1rem);
+  flex: 1;
+
+  font-family: var(--font-primary);
+  background-color: hsl(var(--color-white));
+  border-radius: var(--border-radius-lg);
+
+  box-shadow: 0px 0px 44px hsl(var(--color-box-shadow) / 0.23);
+
+  /* Show border radius bottom */
+  overflow: hidden;
+}
+
+.Bill,
+.Calculate {
+  background-color: hsl(var(--color-gray-lighter));
+}
+
+/* Result Section */
+
+.Result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.Result > .separator {
+  align-self: stretch;
+  border: none;
+  height: var(--separator-width);
+  background-color: hsl(var(--color-gray));
+}
+
+.FlexGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.FlexGroup > .Title {
+  order: 2;
+}
+
+.Dollars {
+  display: flex;
+  font-family: var(--font-secondary), sans-serif;
+}
+
+.Dollars > sup {
+  display: block;
+  font-size: calc(40 / 16 * 1rem);
+  font-weight: var(--font-extra-bold);
+}
+
+.Dollars > div[data-tip-amount],
+.Dollars > div[data-total-per-person] {
+  font-size: calc(56 / 16 * 1rem);
+  font-weight: var(--font-bold);
+}
+
+/* Bill Section */
+
+.Bill {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.Bill > .separator {
+  width: 100%;
+  height: var(--separator-width);
+  border: none;
+  background-color: hsl(var(--color-gray));
+}
+
+.FormGroup {
+  padding: 40px;
+  text-align: center;
+}
+
+.FormGroup > .wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  border-bottom: 3px dotted hsl(var(--color-gray-dark));
+
+  transition: border-color 200ms var(--ease);
+}
+
+.FormGroup > .wrapper:focus-within {
+  border-color: hsl(var(--color-black));
+}
+
+.FormGroup > .wrapper:focus-within > svg {
+  fill: hsl(var(--color-black));
+}
+
+.BillIcon {
+  position: absolute;
+  left: 0;
+
+  fill: hsl(var(--color-icon));
+
+  transition: fill 200ms var(--ease);
+}
+
+.Bill input[type="text"] {
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: var(--font-bold);
+  font-size: calc(40 / 16 * 1rem);
+  line-height: 1;
+  border: none;
+  width: 100%;
+  text-align: center;
+  padding-left: calc(var(--icon-lg) + 8px);
+  padding-right: calc(var(--icon-lg) + 8px);
+  background: none;
+
+  outline: none;
+}
+
+.Bill input[type="text"]::placeholder {
+  color: hsl(var(--color-gray));
+}
+
+/* Tip Percentages Section */
+
+.TipPercentages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px 32px;
+  background-color: hsl(var(--color-gray-light));
+  border-top: 1px solid hsl(var(--color-gray));
+  border-bottom: 1px solid hsl(var(--color-gray));
+}
+
+.TipPercentages input[type="radio"] {
+  display: none;
+}
+
+.TipPercentages label {
+  display: block;
+  width: 100%;
+  font-size: calc(24 / 16 * 1rem);
+  font-weight: var(--font-bold);
+  line-height: 1;
+  text-align: center;
+  padding: 22px;
+  color: hsl(var(--color-secondary));
+  background-color: hsl(var(--color-white));
+  border-radius: var(--border-radius-md);
+
+  cursor: pointer;
+  transition: background-color 200ms var(--ease), color 200ms var(--ease);
+}
+
+.TipPercentages input[type="radio"]:hover + label,
+.TipPercentages input[type="radio"]:checked + label {
+  color: hsl(var(--color-white));
+  background-color: hsl(var(--color-secondary));
+}
+
+.TipPercentage.mActive {
+  color: hsl(var(--color-white));
+  background-color: hsl(var(--color-secondary));
+}
+
+/* Calculate Section */
+
+.Calculate {
+  display: flex;
+  justify-content: flex-end;
+  padding: 38px;
+}
+
+/* Button */
 
 .UnstyledButton {
   display: block;
@@ -174,9 +405,40 @@ h6 {
   outline: none;
 }
 
+.Button {
+  /* min-width: 325px; */
+  width: 100%;
+  padding: 18px;
+  font-size: calc(24 / 16 * 1rem);
+  font-weight: var(--font-bold);
+  line-height: 1;
+  text-align: center;
+  color: hsl(var(--color-white));
+  background-color: hsl(var(--color-primary));
+  border-radius: var(--border-radius-md);
+
+  transition: background-color 200ms var(--ease);
+}
+
+.Button:hover {
+  background-color: hsl(var(--color-primary-dark));
+}
+
+/* Icons */
+
+.Icon {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
 /*
  * UTILITIES
  */
+
+/* Flow Layout Mode */
+.uDisplayBlock {
+  display: block;
+}
 
 .uMiddleCenter {
   display: grid;
@@ -188,7 +450,28 @@ h6 {
   margin-right: auto;
 }
 
-/* Text  */
+/* Font Family */
+.uFontPrimary {
+  font-family: var(--font-primary), monospace;
+}
+
+.uFontSecondary {
+  font-family: var(--font-secondary), sans-serif;
+}
+
+/* Font Size */
+
+.uTextLarge {
+  font-size: calc(82 / 16 * 1rem);
+}
+
+/* Font Weight */
+
+.uBold {
+  font-weight: var(--font-bold);
+}
+
+/* Text  Alignment*/
 
 .uTextCenter {
   text-align: center;
@@ -219,4 +502,58 @@ h6 {
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+/* Media Queries */
+
+@media (min-width: 699px) {
+  .Dollars > sup {
+    font-size: calc(54 / 16 * 1rem);
+  }
+
+  .Dollars > div[data-tip-amount],
+  .Dollars > div[data-total-per-person] {
+    font-size: calc(82 / 16 * 1rem);
+  }
+
+  .FlexGroup {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .FlexGroup > .Title {
+    order: 1;
+  }
+
+  .FlexGroup > .Dollars {
+    order: 2;
+  }
+
+  .Bill {
+    grid-template-columns: 1.5fr max-content 1fr;
+  }
+
+  .Bill > .separator {
+    height: 100%;
+    width: var(--separator-width);
+  }
+
+  .Bill input[type="text"] {
+    font-size: calc(60 / 16 * 1rem);
+  }
+
+  .TipPercentages {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .TipPercentages div {
+    min-width: 136px;
+  }
+
+  .Button {
+    min-width: 325px;
+    width: auto;
+  }
 }
